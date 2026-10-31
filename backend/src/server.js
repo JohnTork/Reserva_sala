@@ -1,16 +1,29 @@
 require("dotenv").config();
 
 const { createApp } = require("./app");
-const database = require("./database");
+const { pool: database, initializeDatabase } = require("./database");
 
 const port = Number(process.env.PORT || 3000);
 const app = createApp({ database });
 
-const server = app.listen(port, () => {
-  console.log(`API listening on port ${port}`);
-});
+let server;
+
+initializeDatabase()
+  .then(() => {
+    server = app.listen(port, () => {
+      console.log(`API listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to initialize the database:", error);
+    process.exitCode = 1;
+  });
 
 function shutdown() {
+  if (!server) {
+    return;
+  }
+
   server.close(async (error) => {
     if (error) {
       console.error("Failed to close the API server:", error);

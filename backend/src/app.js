@@ -1,5 +1,6 @@
 const cors = require("cors");
 const express = require("express");
+const { createSalasRouter } = require("./salas");
 
 function createApp({ database }) {
   const app = express();
@@ -22,6 +23,8 @@ function createApp({ database }) {
       response.status(503).json({ status: "error", database: "unavailable" });
     }
   });
+
+  app.use("/api/salas", createSalasRouter({ database }));
 
   app.use((_request, response) => {
     response.status(404).json({ error: "Not found" });

@@ -24,4 +24,19 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-module.exports = pool;
+async function initializeDatabase() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS salas (
+      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+      nome VARCHAR(120) NOT NULL,
+      andar VARCHAR(50) NOT NULL,
+      capacidade SMALLINT UNSIGNED NOT NULL,
+      recursos JSON NOT NULL,
+      criada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      atualizada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (id)
+    ) ENGINE=InnoDB
+  `);
+}
+
+module.exports = { pool, initializeDatabase };

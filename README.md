@@ -30,6 +30,18 @@ npm --prefix frontend run dev
 
 Abra `http://localhost:5173`. O frontend encaminha as chamadas `/api` para a API em `http://localhost:3000`. As rotas `GET /api/health` e `GET /api/health/db` verificam a API e a conexão MySQL.
 
+Ao iniciar, a API cria a tabela `salas` se ela ainda não existir. O CRUD está disponível em `/api/salas`:
+
+| Método | Rota | Ação |
+| --- | --- | --- |
+| `GET` | `/api/salas` | Lista as salas |
+| `GET` | `/api/salas/:id` | Busca uma sala |
+| `POST` | `/api/salas` | Cadastra uma sala |
+| `PUT` | `/api/salas/:id` | Atualiza uma sala |
+| `DELETE` | `/api/salas/:id` | Exclui uma sala |
+
+O corpo de `POST` e `PUT` usa JSON com `nome` (texto), `andar` (texto), `capacidade` (inteiro positivo) e `recursos` (lista de textos, por exemplo `["Quadro", "Datashow"]`). Recursos vazios são permitidos.
+
 Para executar os testes do backend:
 
 ```powershell
