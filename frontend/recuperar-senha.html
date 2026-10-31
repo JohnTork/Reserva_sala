@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F1D8DA">
+  <title>Recuperar senha | reserve.me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="recovery.js" defer></script>
+</head>
+<body>
+  <main class="login">
+    <a class="logo" href="index.html" aria-label="reserve.me">reserve<span>.</span>me</a>
+
+    <section class="recovery-content" aria-labelledby="recovery-title">
+      <h1 class="recovery-title" id="recovery-title">Recuperar senha</h1>
+      <p class="recovery-description">Informe seu e-mail para recuperar o acesso.</p>
+
+      <form class="login-form" novalidate>
+        <div class="field">
+          <p class="error-message" id="email-error" aria-live="polite"></p>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="E-mail"
+            aria-label="E-mail"
+            aria-describedby="email-error"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <p class="required-note"><span aria-hidden="true">*</span> Campo obrigatório</p>
+
+        <div class="actions">
+          <button class="button button-primary" type="submit">Enviar instruções</button>
+        </div>
+
+        <a class="recover-link" href="index.html">Voltar para entrar</a>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <a href="#">Termos de uso</a>
+      <span aria-hidden="true">·</span>
+      <a href="#">Privacidade</a>
+    </footer>
+  </main>
+</body>
+</html>

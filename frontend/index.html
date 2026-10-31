@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F1D8DA">
+  <title>Entrar | reserve.me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="script.js"></script>
+</head>
+<body>
+  <main class="login">
+    <a class="logo" href="index.html" aria-label="reserve.me">reserve<span>.</span>me</a>
+    <p class="service-status" id="api-status" role="status" aria-live="polite">Conferindo conexão com o serviço...</p>
+
+    <form class="login-form" novalidate>
+      <div class="field">
+        <p class="error-message" id="email-error" aria-live="polite"></p>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="E-mail"
+          aria-label="E-mail"
+          aria-describedby="email-error"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <p class="error-message" id="password-error" aria-live="polite"></p>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Senha"
+          aria-label="Senha"
+          aria-describedby="password-error"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <p class="required-note"><span aria-hidden="true">*</span> Campos obrigatórios</p>
+
+      <div class="actions">
+        <button class="button button-primary" type="submit">Entrar</button>
+        <button class="button button-secondary" type="button">Criar conta</button>
+      </div>
+
+      <a class="recover-link" href="recuperar-senha.html">Recuperar senha</a>
+    </form>
+
+    <footer class="footer">
+      <a href="termos-privacidade.html#termos">Termos de uso</a>
+      <span aria-hidden="true">·</span>
+      <a href="termos-privacidade.html#privacidade">Privacidade</a>
+    </footer>
+  </main>
+</body>
+</html>
