@@ -1,16 +1,28 @@
-require("dotenv").config();
+const path = require("node:path");
+require("dotenv").config({ path: path.resolve(__dirname, "..", ".env") });
 
 const { createApp } = require("./app");
 const { pool: database, initializeDatabase } = require("./database");
+const { bootstrapCoordinator } = require("./auth");
 
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.API_PORT || 3001);
 const app = createApp({ database });
 
 let server;
 
 initializeDatabase()
+  .then(() => bootstrapCoordinator(database))
   .then(() => {
-    server = app.listen(port, () => {
+    server = app.listen(port);
+    server.on("error", (error) => {
+      if (error.code === "EADDRINUSE") {
+        console.error(`API port ${port} is already in use. Set API_PORT to another available port.`);
+      } else {
+        console.error("Failed to start the API server:", error);
+      }
+      process.exitCode = 1;
+    });
+    server.on("listening", () => {
       console.log(`API listening on port ${port}`);
     });
   })

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-labelledby="title description">
+  <title id="title">Guia visual para configurar a conta de Coordenador(a)</title>
+  <desc id="description">Passos para criar backend .env, preencher os dados da conta inicial e iniciar o sistema no Windows.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f1d8da"/>
+      <stop offset="1" stop-color="#ebcac8"/>
+    </linearGradient>
+    <style>
+      .text { font-family: Arial, Helvetica, sans-serif; fill: #493d3b; }
+      .small { font-size: 24px; }
+      .body { font-size: 27px; }
+      .heading { font-size: 34px; font-weight: 700; }
+      .number { font-size: 28px; font-weight: 700; fill: #fffaf8; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-size: 23px; fill: #fffaf8; }
+    </style>
+  </defs>
+  <rect width="1200" height="1600" fill="url(#background)"/>
+  <rect x="50" y="42" width="1100" height="1516" rx="28" fill="#fffaf8"/>
+  <text class="text" x="95" y="120" font-size="46" font-weight="700">Criar acesso de Coordenador(a)</text>
+  <text class="text small" x="97" y="165">Guia passo a passo no Windows</text>
+
+  <g>
+    <circle cx="112" cy="235" r="27" fill="#b87978"/><text class="text number" x="104" y="245">1</text>
+    <text class="text heading" x="160" y="246">Abra a pasta do projeto no VS Code</text>
+    <text class="text body" x="160" y="289">Abra a pasta Reserva_sala. Depois, no menu Terminal, escolha</text>
+    <text class="text body" x="160" y="326">Novo Terminal. O terminal deve estar na raiz do projeto.</text>
+  </g>
+
+  <g>
+    <circle cx="112" cy="385" r="27" fill="#b87978"/><text class="text number" x="104" y="395">2</text>
+    <text class="text heading" x="160" y="396">Crie o arquivo local de configuração</text>
+    <rect x="160" y="418" width="900" height="62" rx="10" fill="#493d3b"/>
+    <text class="mono" x="185" y="457">Copy-Item backend\.env.example backend\.env</text>
+    <text class="text small" x="160" y="515">Cole no terminal e pressione Enter. Se disser que o arquivo</text>
+    <text class="text small" x="160" y="547">já existe, pode continuar para o próximo passo.</text>
+  </g>
+
+  <g>
+    <circle cx="112" cy="604" r="27" fill="#b87978"/><text class="text number" x="104" y="614">3</text>
+    <text class="text heading" x="160" y="615">Abra o arquivo que você vai preencher</text>
+    <rect x="160" y="638" width="900" height="62" rx="10" fill="#493d3b"/>
+    <text class="mono" x="185" y="677">notepad backend\.env</text>
+    <text class="text small" x="160" y="735">Atenção: abra backend\.env, sem “example”.</text>
+  </g>
+
+  <g>
+    <circle cx="112" cy="795" r="27" fill="#b87978"/><text class="text number" x="104" y="805">4</text>
+    <text class="text heading" x="160" y="806">Preencha as três linhas vazias no final</text>
+    <rect x="155" y="832" width="900" height="226" rx="14" fill="#f1d8da" stroke="#bd3540" stroke-width="4"/>
+    <text class="text small" x="185" y="875">Exemplo — troque pelos seus dados:</text>
+    <text class="text" x="185" y="922" font-family="Consolas, monospace" font-size="23">INITIAL_COORDINATOR_NAME=Maria Silva</text>
+    <text class="text" x="185" y="966" font-family="Consolas, monospace" font-size="23">INITIAL_COORDINATOR_EMAIL=maria@escola.com</text>
+    <text class="text" x="185" y="1010" font-family="Consolas, monospace" font-size="23">INITIAL_COORDINATOR_PASSWORD=MinhaSenha123!</text>
+    <text class="text small" x="160" y="1100">Não use aspas. A senha precisa ter 10 caracteres ou mais.</text>
+    <text class="text small" x="160" y="1132">Salve com Ctrl+S e feche o Bloco de Notas.</text>
+  </g>
+
+  <g>
+    <circle cx="112" cy="1190" r="27" fill="#b87978"/><text class="text number" x="104" y="1200">5</text>
+    <text class="text heading" x="160" y="1201">Inicie o banco e os dois servidores</text>
+    <text class="text small" x="160" y="1245">No terminal 1, ligue o MySQL:</text>
+    <rect x="160" y="1260" width="900" height="58" rx="10" fill="#493d3b"/>
+    <text class="mono" x="185" y="1297">docker compose --env-file backend\.env up -d</text>
+    <text class="text small" x="160" y="1354">Depois execute, em dois terminais separados:</text>
+    <rect x="160" y="1370" width="435" height="58" rx="10" fill="#493d3b"/>
+    <text class="mono" x="180" y="1407">npm --prefix backend run dev</text>
+    <rect x="615" y="1370" width="445" height="58" rx="10" fill="#493d3b"/>
+    <text class="mono" x="635" y="1407">npm --prefix frontend run dev</text>
+  </g>
+
+  <rect x="160" y="1460" width="900" height="58" rx="14" fill="#e5c9c3"/>
+  <text class="text body" x="185" y="1498" font-weight="700">Abra http://localhost:5173 e entre com seu e-mail e senha.</text>
+</svg>

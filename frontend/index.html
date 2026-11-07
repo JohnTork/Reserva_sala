@@ -16,8 +16,14 @@
     <a class="logo" href="index.html" aria-label="reserve.me">reserve<span>.</span>me</a>
     <p class="service-status" id="api-status" role="status" aria-live="polite">Conferindo conexão com o serviço...</p>
 
-    <form class="login-form" novalidate>
+    <form class="login-form" id="auth-form" novalidate>
+      <div class="field" id="name-field" hidden>
+        <label for="name">Nome completo</label>
+        <p class="error-message" id="name-error" aria-live="polite"></p>
+        <input id="name" name="name" type="text" autocomplete="name" maxlength="120">
+      </div>
       <div class="field">
+        <label for="email">E-mail</label>
         <p class="error-message" id="email-error" aria-live="polite"></p>
         <input
           id="email"
@@ -32,6 +38,7 @@
       </div>
 
       <div class="field">
+        <label for="password">Senha</label>
         <p class="error-message" id="password-error" aria-live="polite"></p>
         <input
           id="password"
@@ -41,6 +48,7 @@
           aria-label="Senha"
           aria-describedby="password-error"
           autocomplete="current-password"
+          minlength="10"
           required
         >
       </div>
@@ -48,11 +56,12 @@
       <p class="required-note"><span aria-hidden="true">*</span> Campos obrigatórios</p>
 
       <div class="actions">
-        <button class="button button-primary" type="submit">Entrar</button>
-        <button class="button button-secondary" type="button">Criar conta</button>
+        <button class="button button-primary" id="submit-button" type="submit">Entrar</button>
+        <button class="button button-secondary" id="register-button" type="button">Criar conta</button>
       </div>
 
-      <a class="recover-link" href="recuperar-senha.html">Recuperar senha</a>
+      <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+      <a class="recover-link" id="recover-link" href="recuperar-senha.html">Recuperar senha</a>
     </form>
 
     <footer class="footer">

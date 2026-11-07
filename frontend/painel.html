@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F1D8DA">
+  <title>Painel | reserve.me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="painel.js"></script>
+</head>
+<body class="dashboard-body">
+  <main class="dashboard">
+    <header class="dashboard-header">
+      <a class="logo" href="painel.html" aria-label="reserve.me">reserve<span>.</span>me</a>
+      <div class="user-summary">
+        <p id="user-name">Carregando...</p>
+        <span id="user-role"></span>
+        <button class="button button-secondary" id="logout-button" type="button">Sair</button>
+      </div>
+    </header>
+    <p class="service-status" id="dashboard-message" role="status" aria-live="polite"></p>
+    <nav class="dashboard-nav" id="dashboard-nav" aria-label="Seções do sistema"></nav>
+    <section class="dashboard-content" id="dashboard-content" aria-live="polite"></section>
+  </main>
+</body>
+</html>

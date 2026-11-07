@@ -1,4 +1,5 @@
 const express = require("express");
+const { requirePermission } = require("./auth");
 
 const resourceLimit = 50;
 
@@ -17,8 +18,11 @@ function validateSala(body) {
     errors.andar = "Informe um andar com até 50 caracteres.";
   }
 
-  if (!Number.isInteger(body.capacidade) || body.capacidade < 1 || body.capacidade > 65535) {
-    errors.capacidade = "A capacidade deve ser um número inteiro entre 1 e 65535.";
+  if (!Number.isInteger(body.capacidade) || body.capacidade < 1 || body.capacidade > 200) {
+    errors.capacidade = "A capacidade deve ser um número inteiro entre 1 e 200.";
+  } else if (body.capacidade > 30
+    && (typeof body.nome !== "string" || body.nome.trim().toLocaleLowerCase("pt-BR") !== "auditório")) {
+    errors.capacidade = "Somente o auditório pode ter capacidade superior a 30 alunos.";
   }
 
   if (!Array.isArray(body.recursos) || body.recursos.length > resourceLimit
@@ -62,7 +66,7 @@ function mapSala(row) {
 function createSalasRouter({ database }) {
   const router = express.Router();
 
-  router.get("/", async (_request, response) => {
+  router.get("/", requirePermission("rooms:read"), async (_request, response) => {
     try {
       const [rows] = await database.query(
         "SELECT id, nome, andar, capacidade, recursos FROM salas ORDER BY nome, id",
@@ -74,7 +78,7 @@ function createSalasRouter({ database }) {
     }
   });
 
-  router.post("/", async (request, response) => {
+  router.post("/", requirePermission("rooms:manage"), async (request, response) => {
     const result = validateSala(request.body);
 
     if (result.errors) {
@@ -101,7 +105,7 @@ function createSalasRouter({ database }) {
     }
   });
 
-  router.get("/:id", async (request, response) => {
+  router.get("/:id", requirePermission("rooms:read"), async (request, response) => {
     const id = Number(request.params.id);
 
     if (!Number.isSafeInteger(id) || id < 1) {
@@ -127,7 +131,7 @@ function createSalasRouter({ database }) {
     }
   });
 
-  router.put("/:id", async (request, response) => {
+  router.put("/:id", requirePermission("rooms:manage"), async (request, response) => {
     const id = Number(request.params.id);
 
     if (!Number.isSafeInteger(id) || id < 1) {
@@ -142,30 +146,56 @@ function createSalasRouter({ database }) {
       return;
     }
 
+    let connection;
+    let transactionStarted = false;
     try {
+      connection = await database.getConnection();
       const { nome, andar, capacidade, recursos } = result.value;
-      const [updateResult] = await database.query(
+      await connection.beginTransaction();
+      transactionStarted = true;
+      const [rooms] = await connection.query("SELECT id FROM salas WHERE id = ? FOR UPDATE", [id]);
+      if (rooms.length === 0) {
+        await connection.rollback();
+        transactionStarted = false;
+        response.status(404).json({ error: "Sala não encontrada." });
+        return;
+      }
+
+      const [reservations] = await connection.query(
+        `SELECT COUNT(*) AS total FROM reservas
+         WHERE sala_id = ? AND situacao IN ('pendente', 'aprovada') AND quantidade_alunos > ?`,
+        [id, capacidade],
+      );
+      if (Number(reservations[0].total) > 0) {
+        await connection.rollback();
+        transactionStarted = false;
+        response.status(409).json({
+          error: "A capacidade não pode ser reduzida abaixo da quantidade de alunos já reservada.",
+        });
+        return;
+      }
+
+      await connection.query(
         "UPDATE salas SET nome = ?, andar = ?, capacidade = ?, recursos = ? WHERE id = ?",
         [nome, andar, capacidade, JSON.stringify(recursos), id],
       );
-
-      if (updateResult.affectedRows === 0) {
-        const [rows] = await database.query("SELECT id FROM salas WHERE id = ?", [id]);
-
-        if (rows.length === 0) {
-          response.status(404).json({ error: "Sala não encontrada." });
-          return;
-        }
-      }
-
+      await connection.commit();
+      transactionStarted = false;
       response.json({ id, nome, andar, capacidade, recursos });
     } catch (error) {
+      if (connection && transactionStarted) {
+        await connection.rollback();
+      }
       console.error("Failed to update sala:", error);
       response.status(500).json({ error: "Não foi possível atualizar a sala." });
+    } finally {
+      if (connection) {
+        connection.release();
+      }
     }
   });
 
-  router.delete("/:id", async (request, response) => {
+  router.delete("/:id", requirePermission("rooms:manage"), async (request, response) => {
     const id = Number(request.params.id);
 
     if (!Number.isSafeInteger(id) || id < 1) {
@@ -183,6 +213,12 @@ function createSalasRouter({ database }) {
 
       response.status(204).end();
     } catch (error) {
+      if (error.code === "ER_ROW_IS_REFERENCED_2") {
+        response.status(409).json({
+          error: "Não é possível excluir uma sala que possui reservas ou tarefas de limpeza vinculadas.",
+        });
+        return;
+      }
       console.error("Failed to delete sala:", error);
       response.status(500).json({ error: "Não foi possível excluir a sala." });
     }

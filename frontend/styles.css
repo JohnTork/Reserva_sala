@@ -91,6 +91,33 @@ body {
   margin-bottom: 20px;
 }
 
+.field label,
+.dashboard-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #493d3b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field[hidden],
+[hidden] {
+  display: none !important;
+}
+
+.form-message {
+  min-height: 18px;
+  margin: 14px 0 0;
+  color: #496d49;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.form-message[data-type="error"],
+.service-status[data-type="error"] {
+  color: #a8333b;
+}
+
 .error-message {
   min-height: 16px;
   margin: 0 0 5px;
@@ -375,6 +402,188 @@ body {
   color: #493d3b;
 }
 
+.dashboard-body {
+  display: block;
+  min-height: 100vh;
+  padding: 28px 20px 56px;
+}
+
+.dashboard {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.dashboard-header .logo {
+  margin: 0;
+}
+
+.user-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #493d3b;
+  font-size: 14px;
+}
+
+.user-summary p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.user-summary span {
+  color: #6d5552;
+}
+
+.user-summary .button {
+  min-height: 40px;
+}
+
+.dashboard > .service-status {
+  margin: 0 0 14px;
+  text-align: left;
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.nav-button {
+  padding: 10px 16px;
+  border: 1px solid #b87978;
+  border-radius: 0 10px 0 10px;
+  background: #e5c9c3;
+  color: #493d3b;
+  cursor: pointer;
+  font: inherit;
+}
+
+.nav-button:hover,
+.nav-button[aria-current="true"] {
+  background: #b87978;
+  color: #fffaf8;
+}
+
+.dashboard-content {
+  padding: clamp(20px, 4vw, 36px);
+  border: 1px solid rgba(184, 121, 120, 0.24);
+  border-radius: 16px;
+  background: #fffaf8;
+}
+
+.dashboard-content h1,
+.dashboard-content h2,
+.dashboard-content h3 {
+  color: #493d3b;
+  font-family: "Creepster", cursive;
+}
+
+.dashboard-content h1 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4vw, 34px);
+}
+
+.dashboard-content h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.section-description {
+  margin: 0 0 24px;
+  color: #6d5552;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.dashboard-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  align-items: end;
+  gap: 14px;
+  margin: 0 0 28px;
+  padding: 20px;
+  border: 1px solid #ecc8c1;
+  border-radius: 12px;
+  background: #f1d8da;
+}
+
+.dashboard-form h3,
+.dashboard-form .required-note {
+  grid-column: 1 / -1;
+}
+
+.dashboard-form h3 {
+  margin: 0;
+}
+
+.dashboard-form .required-note {
+  margin: 0;
+}
+
+.dashboard-field input,
+.dashboard-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 5px solid #bd3540;
+  border-radius: 12px;
+  background: #fffaf8;
+  color: #493d3b;
+  font: inherit;
+}
+
+.dashboard-field input:focus-visible,
+.dashboard-field select:focus-visible {
+  outline: 3px solid #493d3b;
+  outline-offset: 2px;
+}
+
+.dashboard-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: 14px;
+}
+
+.data-card {
+  padding: 18px;
+  border: 1px solid #ecc8c1;
+  border-radius: 12px;
+  background: #f1d8da;
+}
+
+.data-card p {
+  margin: 7px 0;
+  color: #5c4542;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.data-card .button {
+  min-height: 42px;
+  margin: 10px 8px 0 0;
+}
+
+.empty-state {
+  color: #6d5552;
+}
+
+.inline-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -392,6 +601,33 @@ body {
 }
 
 @media (max-width: 600px) {
+  .dashboard-body {
+    padding: 20px 14px 36px;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+  }
+
+  .user-summary {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .user-summary p {
+    width: 100%;
+    text-align: right;
+  }
+
+  .dashboard-content {
+    padding: 20px 16px;
+  }
+
+  .dashboard-form {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
   .legal-page {
     padding: 22px 16px 40px;
   }
